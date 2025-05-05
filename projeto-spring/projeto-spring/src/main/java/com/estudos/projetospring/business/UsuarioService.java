@@ -12,7 +12,7 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
-    private Usuario salvarUsuario(Usuario usuario){
+    public Usuario salvarUsuario(Usuario usuario){
         try {
             emailExiste(usuario.getEmail());
             return usuarioRepository.save(usuario);
