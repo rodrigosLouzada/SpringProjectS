@@ -4,6 +4,7 @@ import com.estudos.projetospring.infrastructure.entity.Usuario;
 import com.estudos.projetospring.infrastructure.exceptions.ConflictException;
 import com.estudos.projetospring.infrastructure.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,10 +12,12 @@ import org.springframework.stereotype.Service;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public Usuario salvarUsuario(Usuario usuario){
         try {
             emailExiste(usuario.getEmail());
+            usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
             return usuarioRepository.save(usuario);
         }catch (ConflictException e){
             throw new ConflictException("Email já cadastrado", e.getCause());
